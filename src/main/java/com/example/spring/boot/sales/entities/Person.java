@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -29,7 +28,7 @@ public class Person {
 	private String name;
 	
 	@Column(length = 20, nullable = false, unique = true)
-	@Max(value = 20, message = "{person.tax.id.max}")
+	@Size(max = 20, message = "{person.tax.id.max}")
 	private String taxId;
 
 }

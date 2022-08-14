@@ -1,4 +1,4 @@
-package com.example.spring.boot.vendas.entities;
+package com.example.spring.boot.sales.entities;
 
 import java.math.BigDecimal;
 

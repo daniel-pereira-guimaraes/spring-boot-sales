@@ -26,13 +26,30 @@ public class PersonService {
 			.orElseThrow(() -> new Exception(Messages.format("person.not.found", id)));
 	}
 	
-	public Person insert(Person person) {
+	public Person findByTaxId(String taxId) throws Exception {
+		return personRepository.findByTaxId(taxId)
+			.orElseThrow(() -> new Exception(Messages.format("person.not.found", taxId)));
+	}
+	
+	public Person insert(Person person) throws Exception {
 		person.setName(person.getName().toUpperCase());
+		String taxId = person.getTaxId();
+		if (taxId != null && !taxId.isEmpty()) {
+			Person p = personRepository.findByTaxId(taxId).get();
+			if (p != null)
+				throw new Exception(Messages.format("person.tax.id.duplicate", taxId));
+		}
 		return personRepository.save(person);
 	}
 	
-	public Person update(Person person) {
+	public Person update(Person person) throws Exception {
 		person.setName(person.getName().toUpperCase());
+		String taxId = person.getTaxId();
+		if (taxId != null && !taxId.isEmpty()) {
+			Person p = personRepository.findByTaxId(taxId).get();
+			if (p != null && p.getId() != person.getId())
+				throw new Exception(Messages.format("person.tax.id.duplicate", taxId));
+		}
 		return personRepository.save(person);
 	}
 

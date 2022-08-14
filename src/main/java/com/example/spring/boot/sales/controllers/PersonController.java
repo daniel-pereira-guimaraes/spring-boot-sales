@@ -1,5 +1,7 @@
 package com.example.spring.boot.sales.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,9 +42,19 @@ public class PersonController {
 			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	
+	@GetMapping("/taxId") // For security, taxId was passed in the request body.
+	public ResponseEntity<ResponseDTO> getById(@RequestBody String taxId) {
+		try {
+			return new ResponseEntity<>(new ResponseDTO(personService.findByTaxId(taxId)), HttpStatus.OK); 
+		} catch(Exception e) {
+			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	@PostMapping
-	public ResponseEntity<ResponseDTO> post(@RequestBody Person person) {
+	public ResponseEntity<ResponseDTO> post(@RequestBody @Valid Person person) {
 		try {
 			return new ResponseEntity<>(new ResponseDTO(personService.insert(person)), HttpStatus.CREATED); 
 		} catch(Exception e) {
@@ -51,7 +63,7 @@ public class PersonController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<ResponseDTO> put(@RequestBody Person person) {
+	public ResponseEntity<ResponseDTO> put(@RequestBody @Valid Person person) {
 		try {
 			return new ResponseEntity<>(new ResponseDTO(personService.update(person)), HttpStatus.OK); 
 		} catch(Exception e) {

@@ -1,5 +1,7 @@
 package com.example.spring.boot.sales.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +47,7 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ResponseDTO> post(@RequestBody User user) {
+	public ResponseEntity<ResponseDTO> post(@RequestBody @Valid User user) {
 		try {
 			return new ResponseEntity<>(new ResponseDTO(userService.insert(user)), HttpStatus.CREATED); 
 		} catch(Exception e) {
@@ -54,7 +56,7 @@ public class UserController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<ResponseDTO> put(@RequestBody User user) {
+	public ResponseEntity<ResponseDTO> put(@RequestBody @Valid User user) {
 		try {
 			return new ResponseEntity<>(new ResponseDTO(userService.update(user)), HttpStatus.OK); 
 		} catch(Exception e) {

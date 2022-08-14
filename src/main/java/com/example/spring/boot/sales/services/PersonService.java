@@ -35,7 +35,7 @@ public class PersonService {
 		person.setName(person.getName().toUpperCase());
 		String taxId = person.getTaxId();
 		if (taxId != null && !taxId.isEmpty()) {
-			Person p = personRepository.findByTaxId(taxId).get();
+			Person p = personRepository.findByTaxId(taxId).orElse(null);
 			if (p != null)
 				throw new Exception(Messages.format("person.tax.id.duplicate", taxId));
 		}
@@ -46,7 +46,7 @@ public class PersonService {
 		person.setName(person.getName().toUpperCase());
 		String taxId = person.getTaxId();
 		if (taxId != null && !taxId.isEmpty()) {
-			Person p = personRepository.findByTaxId(taxId).get();
+			Person p = personRepository.findByTaxId(taxId).orElse(null);
 			if (p != null && p.getId() != person.getId())
 				throw new Exception(Messages.format("person.tax.id.duplicate", taxId));
 		}

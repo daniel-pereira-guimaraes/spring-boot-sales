@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.spring.boot.sales.dto.ResponseDTO;
 import com.example.spring.boot.sales.dto.SaleFilterDTO;
 import com.example.spring.boot.sales.entities.Sale;
+import com.example.spring.boot.sales.entities.SaleItem;
 import com.example.spring.boot.sales.services.SaleService;
 
 @RestController
@@ -38,7 +39,6 @@ public class SaleController {
 	@GetMapping("/filter")
 	public ResponseEntity<ResponseDTO> getByFilter(@RequestBody SaleFilterDTO filter) {
 		try {
-			System.out.print("Filtro recebido");
 			return new ResponseEntity<>(new ResponseDTO(saleService.findByFilter(filter)), HttpStatus.OK); 
 		} catch(Exception e) {
 			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,5 +81,54 @@ public class SaleController {
 			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/* ITEMS */
+	
+	@GetMapping("/items/{saleId}")
+	public ResponseEntity<ResponseDTO> getItemBySaleId(@PathVariable Long saleId) {
+		try {
+			return new ResponseEntity<>(new ResponseDTO(saleService.findItemBySaleId(saleId)), HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/item/{id}")
+	public ResponseEntity<ResponseDTO> getItemById(@PathVariable Long id) {
+		try {
+			return new ResponseEntity<>(new ResponseDTO(saleService.findItemById(id)), HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 
+	@PostMapping("/item")
+	public ResponseEntity<ResponseDTO> postItem(@RequestBody @Valid SaleItem item) {
+		try {
+			return new ResponseEntity<>(new ResponseDTO(saleService.insertItem(item)), HttpStatus.OK); 
+		} catch(Exception e) {
+			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PutMapping("/item")
+	public ResponseEntity<ResponseDTO> putItem(@RequestBody @Valid SaleItem item) {
+		try {
+			return new ResponseEntity<>(new ResponseDTO(saleService.updateItem(item)), HttpStatus.OK); 
+		} catch(Exception e) {
+			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@DeleteMapping("/item/{id}")
+	public ResponseEntity<ResponseDTO> deleteItem(@PathVariable Long id) {
+		try {
+			saleService.deleteItem(id);
+			return new ResponseEntity<>(new ResponseDTO(), HttpStatus.OK); 
+		} catch(Exception e) {
+			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 }

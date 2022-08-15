@@ -12,11 +12,14 @@ import com.example.spring.boot.sales.entities.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-	public List<Product> findAllByOrderByDescription();
-	public Optional<Product> findByGtin(String taxId);
+	List<Product> findAllByOrderByDescription();
+	Optional<Product> findByGtin(String taxId);
 	
 	@Modifying
 	@Query("UPDATE Product p SET p.quantity = p.quantity + :increment WHERE p.id = :id")
-	public int incQuantity(@Param("id") Long id, @Param("increment") Long increment);
+	int incQuantity(@Param("id") Long id, @Param("increment") Long increment);
+	
+	@Query("SELECT p.quantity FROM Product p WHERE p.id = ?1")
+	Long getQuantity(Long id);
 	
 }

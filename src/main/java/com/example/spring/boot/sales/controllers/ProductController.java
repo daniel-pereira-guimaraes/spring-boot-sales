@@ -57,8 +57,7 @@ public class ProductController {
 	public ResponseEntity<ResponseDTO> incQuantity(
 		@PathVariable Long id, @PathVariable Long increment) {
 		try {
-			productService.incQuantity(id, increment);
-			return new ResponseEntity<>(new ResponseDTO(productService.findById(id)), HttpStatus.OK); 
+			return new ResponseEntity<>(new ResponseDTO(productService.incQuantity(id, increment)), HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

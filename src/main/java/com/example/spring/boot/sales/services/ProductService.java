@@ -60,8 +60,10 @@ public class ProductService {
 	}
 	
 	@Transactional
-	public void incQuantity(Long id, Long increment) {
-		System.out.print("\nproductRepository.incQuantity: " + productRepository.incQuantity(id, increment) + "\n");
+	public Long incQuantity(Long id, Long increment) throws Exception {
+		if (productRepository.incQuantity(id, increment) <= 0)
+			throw new Exception(Messages.format("product.not.found", id));
+		return productRepository.getQuantity(id);
 	}
 	
 }

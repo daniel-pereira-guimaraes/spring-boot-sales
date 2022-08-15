@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SaleFilterDTO {
 	
-	private Long sellerId;
-	private Long customerId;
 	private LocalDate startDate;
 	private LocalDate endDate;
+	private Long sellerId;
+	private Long customerId;
 
 }

@@ -17,6 +17,6 @@ import lombok.NoArgsConstructor;
 @JsonInclude(Include.NON_NULL)
 public class FullSaleDTO extends SaleDTO {
 	
-	private List<SaleItemDTO> items; 
+	private List<SaleItemDTO> items;
 
 }

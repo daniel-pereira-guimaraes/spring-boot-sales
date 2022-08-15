@@ -13,6 +13,7 @@ import com.example.spring.boot.sales.Messages;
 import com.example.spring.boot.sales.dto.FullSaleDTO;
 import com.example.spring.boot.sales.dto.SaleCustomerDTO;
 import com.example.spring.boot.sales.dto.SaleDTO;
+import com.example.spring.boot.sales.dto.SaleFilterDTO;
 import com.example.spring.boot.sales.dto.SaleItemDTO;
 import com.example.spring.boot.sales.dto.SaleProductDTO;
 import com.example.spring.boot.sales.dto.SaleSellerDTO;
@@ -54,14 +55,6 @@ public class SaleService {
 			sale.getComment());
 	}
 	
-	public List<SaleDTO> findAll() {
-		List<SaleDTO> result = new ArrayList<>();
-		saleRepository.findAll().forEach(sale -> {
-			result.add(toSaleDTO(sale));
-		});
-		return result;
-	}
-	
 	private SaleProductDTO toSaleProdutctDTO(Product product) {
 		return new SaleProductDTO(
 			product.getId(),
@@ -76,7 +69,28 @@ public class SaleService {
 			saleItem.getQuantity(),
 			saleItem.getCostPrice());
 	}
-	
+
+	public List<SaleDTO> findAll() {
+		List<SaleDTO> result = new ArrayList<>();
+		saleRepository.findAll().forEach(sale -> {
+			result.add(toSaleDTO(sale));
+		});
+		return result;
+	}
+
+	public List<SaleDTO> findByFilter(SaleFilterDTO filter) {
+		List<SaleDTO> result = new ArrayList<>();
+		saleRepository.findByFilter(
+				filter.getSellerId(),
+				filter.getCustomerId(),
+				filter.getStartDate(),
+				filter.getEndDate()
+			).forEach(sale -> {
+				result.add(toSaleDTO(sale));
+			});
+		return result;
+	}
+
 	private List<SaleItemDTO> findSaleItems(Long saleId) {
 		List<SaleItemDTO> result = new ArrayList<>();
 		saleItemRepository.findBySaleId(saleId).forEach(item -> {
@@ -99,6 +113,7 @@ public class SaleService {
 			
 		return fullSaleDTO;
 	}
+
 	
 	@Transactional
 	public Sale insert(Sale sale) {

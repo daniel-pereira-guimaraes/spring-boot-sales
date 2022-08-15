@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring.boot.sales.dto.ResponseDTO;
+import com.example.spring.boot.sales.dto.SaleFilterDTO;
 import com.example.spring.boot.sales.entities.Sale;
 import com.example.spring.boot.sales.services.SaleService;
 
@@ -29,6 +30,16 @@ public class SaleController {
 	public ResponseEntity<ResponseDTO> getAll() {
 		try {
 			return new ResponseEntity<>(new ResponseDTO(saleService.findAll()), HttpStatus.OK); 
+		} catch(Exception e) {
+			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/filter")
+	public ResponseEntity<ResponseDTO> getByFilter(@RequestBody SaleFilterDTO filter) {
+		try {
+			System.out.print("Filtro recebido");
+			return new ResponseEntity<>(new ResponseDTO(saleService.findByFilter(filter)), HttpStatus.OK); 
 		} catch(Exception e) {
 			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

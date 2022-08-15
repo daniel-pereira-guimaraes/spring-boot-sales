@@ -53,6 +53,17 @@ public class ProductController {
 		}
 	}
 	
+	@GetMapping("inc/quantity/{id}/{increment}")
+	public ResponseEntity<ResponseDTO> incQuantity(
+		@PathVariable Long id, @PathVariable Long increment) {
+		try {
+			productService.incQuantity(id, increment);
+			return new ResponseEntity<>(new ResponseDTO(productService.findById(id)), HttpStatus.OK); 
+		} catch(Exception e) {
+			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@PostMapping
 	public ResponseEntity<ResponseDTO> post(@RequestBody @Valid Product product) {
 		try {
@@ -81,5 +92,5 @@ public class ProductController {
 			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
 }

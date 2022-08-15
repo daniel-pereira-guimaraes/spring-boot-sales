@@ -2,6 +2,8 @@ package com.example.spring.boot.sales.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +57,11 @@ public class ProductService {
 
 	public void delete(Long id) throws Exception {
 		productRepository.delete(findById(id));
+	}
+	
+	@Transactional
+	public void incQuantity(Long id, Long increment) {
+		System.out.print("\nproductRepository.incQuantity: " + productRepository.incQuantity(id, increment) + "\n");
 	}
 	
 }

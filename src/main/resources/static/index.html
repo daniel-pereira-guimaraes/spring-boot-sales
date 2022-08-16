@@ -1,0 +1,24 @@
+<html>
+<head>
+	<title>Sale API test</title>
+</head>
+<body>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+		axios.get('http://localhost/user', {
+			auth: {
+				username: 'daniel', 
+				password: '12345'
+			}
+		})
+		.then(function (response) {
+			document.write('<pre>');
+			document.write(JSON.stringify(response.data, null, 2));
+			document.write('</pre>');
+		})
+		.catch(function (error) {
+			document.write(error);
+		}); 
+	</script>
+</body>
+</html>

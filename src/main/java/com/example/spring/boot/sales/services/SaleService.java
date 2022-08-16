@@ -2,6 +2,7 @@ package com.example.spring.boot.sales.services;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.spring.boot.sales.Messages;
 import com.example.spring.boot.sales.dto.SaleFilterDTO;
+import com.example.spring.boot.sales.dto.SaleSummaryByDateDTO;
 import com.example.spring.boot.sales.entities.Sale;
 import com.example.spring.boot.sales.entities.SaleItem;
 import com.example.spring.boot.sales.repositories.SaleItemRepository;
@@ -41,6 +43,12 @@ public class SaleService {
 			filter.getCustomerId(),
 			filter.getStartDate(),
 			filter.getEndDate());
+	}
+	
+	public List<SaleSummaryByDateDTO> summaryByDate(LocalDate startDate, LocalDate endDate) {
+		startDate = startDate == null ? LocalDate.now().minusDays(30) : startDate;
+		endDate = endDate == null ? LocalDate.now() : endDate;
+		return saleRepository.summaryByDate(startDate, endDate);
 	}
 
 	

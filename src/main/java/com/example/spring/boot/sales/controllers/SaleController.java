@@ -1,8 +1,11 @@
 package com.example.spring.boot.sales.controllers;
 
+import java.time.LocalDate;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,10 +48,21 @@ public class SaleController {
 		}
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDTO> getById(@PathVariable Long id) {
+	@GetMapping("/summary/date/{startDate}/{endDate}")
+	public ResponseEntity<ResponseDTO> getSummaryByDate(
+			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate, 
+			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 		try {
-			return new ResponseEntity<>(new ResponseDTO(saleService.findById(id)), HttpStatus.OK);
+			return new ResponseEntity<>(new ResponseDTO(saleService.summaryByDate(startDate, endDate)), HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/summary/date")
+	public ResponseEntity<ResponseDTO> getSummaryByDate() {
+		try {
+			return new ResponseEntity<>(new ResponseDTO(saleService.summaryByDate(null, null)), HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

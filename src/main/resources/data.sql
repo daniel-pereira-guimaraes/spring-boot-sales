@@ -21,3 +21,7 @@ INSERT INTO sale_item(sale_id, product_id, quantity, cost_price, sale_price) VAL
 INSERT INTO sale_item(sale_id, product_id, quantity, cost_price, sale_price) VALUES(1, 3, 30, 300, 350);
 INSERT INTO sale_item(sale_id, product_id, quantity, cost_price, sale_price) VALUES(2, 1, 10, 100, 150);
 INSERT INTO sale_item(sale_id, product_id, quantity, cost_price, sale_price) VALUES(2, 3, 30, 300, 350);
+INSERT INTO sale_item(sale_id, product_id, quantity, cost_price, sale_price) VALUES(3, 1, 30, 100, 160);
+INSERT INTO sale_item(sale_id, product_id, quantity, cost_price, sale_price) VALUES(3, 2, 30, 200, 260);
+INSERT INTO sale_item(sale_id, product_id, quantity, cost_price, sale_price) VALUES(4, 2, 30, 200, 270);
+INSERT INTO sale_item(sale_id, product_id, quantity, cost_price, sale_price) VALUES(5, 3, 30, 300, 350);

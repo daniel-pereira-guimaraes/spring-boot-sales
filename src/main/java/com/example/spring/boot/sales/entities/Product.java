@@ -47,15 +47,15 @@ public class Product {
 	@NotNull(message = "{product.quantity.required}")
 	@Min(value = 0, message = "{product.quantity.min.max}")
 	@Max(value = 9999999, message = "{product.quantity.min.max}")
-	private Long quantity = 0L;
+	private Long quantity;
 	
 	@Column(precision = 18, scale = 8, nullable = false)
-	private BigDecimal costPrice = new BigDecimal(0);
+	private BigDecimal costPrice;
 
 	@Column(precision = 18, scale = 2, nullable = false)
 	@NotNull(message = "{product.sale.price.required}")
 	@DecimalMin(value = "0.01", message = "{product.sale.price.min.max}")
 	@DecimalMax(value = "999999999.99", message = "{product.sale.price.min.max}")
-	private BigDecimal salePrice = new BigDecimal(0);
+	private BigDecimal salePrice;
 
 }

@@ -2,6 +2,7 @@ package com.example.spring.boot.sales.entities;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -36,6 +41,7 @@ public class SaleItem {
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore 
 	private Sale sale;
 	
@@ -45,7 +51,8 @@ public class SaleItem {
 	
 	@Column(nullable = false)
 	@NotNull(message = "{sale.item.quantity.required}")
-	@Size(min = 1, max = 9999999, message = "{sale.item.quantity.min.max}")
+	@Min(value = 1, message = "{sale.item.quantity.min.max}")
+	@Max(value = 9999999, message = "{sale.item.quantity.min.max}")
 	private Long quantity;
 
 	@Column(nullable = false, precision = 18, scale = 8)

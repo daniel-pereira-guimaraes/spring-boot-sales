@@ -1,11 +1,13 @@
 package com.example.spring.boot.sales.services;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.spring.boot.sales.Messages;
@@ -53,9 +55,12 @@ public class SaleService {
 		return saleRepository.save(sale);
 	}
 
-	@Transactional
 	public void delete(Long id) throws Exception {
-		saleRepository.deleteById(findById(id).getId());
+		try {
+			saleRepository.deleteById(id);
+		} catch(EmptyResultDataAccessException e) {
+			throw new Exception(Messages.format("sale.not.found", id));
+		}
 	}
 	
 	public List<SaleItem> findItemBySaleId(Long saleId) {
@@ -69,6 +74,7 @@ public class SaleService {
 
 	@Transactional
 	public SaleItem insertItem(SaleItem saleItem) throws Exception {
+		saleItem.setCostPrice(new BigDecimal(0));
 		return saleItemRepository.save(saleItem);
 	}
 	

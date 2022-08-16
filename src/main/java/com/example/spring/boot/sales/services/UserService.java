@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.spring.boot.sales.Messages;
 import com.example.spring.boot.sales.entities.User;
 import com.example.spring.boot.sales.repositories.UserRepository;
+import com.example.spring.boot.sales.security.SecurityConfig;
 
 @Service
 public class UserService {
@@ -31,10 +32,12 @@ public class UserService {
 	
 	public User insert(User user) {
 		user.setIsEnabled(true);
+		user.setPassword(SecurityConfig.passwordEncoder().encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 	
 	public User update(User user) {
+		user.setPassword(SecurityConfig.passwordEncoder().encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 

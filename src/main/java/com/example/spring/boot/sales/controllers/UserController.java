@@ -39,7 +39,7 @@ public class UserController {
 		try {
 			User user = param.matches("\\d*") ?
 				userService.findById(Long.parseLong(param)) :
-				userService.findByLoginName(param);
+				userService.findByUsername(param);
 			return new ResponseEntity<>(new ResponseDTO(user), HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -8,6 +8,6 @@ import com.example.spring.boot.sales.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-	public Optional<User> findByLoginName(String loginName);
+	public Optional<User> findByUsername(String username);
 
 }

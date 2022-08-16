@@ -33,15 +33,15 @@ public class User {
 	private Long id;
 	
 	@Column(length = 50, nullable = false, unique = true)
-	@NotBlank(message = "{user.login.name.required}")
-	@Size(min = 2, max = 50, message = "{user.login.name.min.max}")
-	private String loginName;
+	@NotBlank(message = "{user.username.required}")
+	@Size(min = 2, max = 50, message = "{user.username.min.max}")
+	private String username;
 	
 	@Column(length = 64, nullable = false)
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	
 	@Column(nullable = false)
-	private Boolean isEnabled = false;
+	private Boolean isEnabled;
 
 }

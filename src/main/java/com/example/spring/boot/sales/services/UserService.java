@@ -24,9 +24,9 @@ public class UserService {
 			.orElseThrow(() -> new Exception(Messages.format("user.not.found", id)));
 	}
 	
-	public User findByLoginName(String loginName) throws Exception {
-		return userRepository.findByLoginName(loginName)
-			.orElseThrow(() -> new Exception(Messages.format("user.not.found", loginName)));
+	public User findByUsername(String username) throws Exception {
+		return userRepository.findByUsername(username)
+			.orElseThrow(() -> new Exception(Messages.format("user.not.found", username)));
 	}
 	
 	public User insert(User user) {

@@ -2,7 +2,6 @@ package com.example.spring.boot.sales.services;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.temporal.TemporalUnit;
 import java.util.List;
 
 import javax.transaction.Transactional;

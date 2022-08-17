@@ -8,12 +8,20 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.example.spring.boot.sales.Messages;
+import com.example.spring.boot.sales.dto.LoginDTO;
+import com.example.spring.boot.sales.entities.User;
+import com.example.spring.boot.sales.services.UserService;
+
 @SuppressWarnings("deprecation")
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private CustomUserDetailService userDetailService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -42,5 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	
+	public void verifyCredentials(LoginDTO loginDTO) throws Exception {
+		User user = userService.findByUsername(loginDTO.getUsername());
+		if (!passwordEncoder().matches(loginDTO.getPassword(), user.getPassword()))
+			throw new Exception(Messages.get("login.invalid"));
+	}
+		
 }

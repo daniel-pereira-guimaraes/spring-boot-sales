@@ -6,7 +6,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.spring.boot.sales.Messages;
 import com.example.spring.boot.sales.dto.LoginDTO;
@@ -23,21 +26,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private JwtService jwtService;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.cors().and() // For external accesss!
 			.csrf().disable() // Development time only!
 			.authorizeRequests()
-				.antMatchers("/login")
-				.permitAll()
+				.antMatchers("/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/user").permitAll() // Permit create user!
+				.anyRequest().authenticated()
 			.and()
-			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/user") // Permit create user!
-				.permitAll()
-			.anyRequest().authenticated()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.httpBasic();
+				.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+	}
+	
+	public OncePerRequestFilter jwtFilter() {
+		return new JwtAuthFilter(jwtService, userDetailService);
 	}
 	
 

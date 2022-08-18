@@ -15,7 +15,7 @@ import com.example.spring.boot.sales.Messages;
 import com.example.spring.boot.sales.dto.ResponseDTO;
 
 @RestControllerAdvice
-public class ControllerExceptionHandler {
+public class ApplicationControllerAdvice {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
